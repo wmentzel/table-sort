@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+
+<script type="text/javascript">
+	function sort(ascending, columnClassName, tableId) {
+		var tbody = document.getElementById(tableId).getElementsByTagName(
+				"tbody")[0];
+		var rows = tbody.getElementsByTagName("tr");
+
+		var unsorted = true;
+
+		while (unsorted) {
+			unsorted = false
+
+			for (var r = 0; r < rows.length - 1; r++) {
+				var row = rows[r];
+				var nextRow = rows[r + 1];
+
+				var value = row.getElementsByClassName(columnClassName)[0].innerHTML;
+				var nextValue = nextRow.getElementsByClassName(columnClassName)[0].innerHTML;
+
+				value = value.replace(',', ''); // in case a comma is used in float number
+				nextValue = nextValue.replace(',', '');
+
+				if (!isNaN(value)) {
+					value = parseFloat(value);
+					nextValue = parseFloat(nextValue);
+				}
+
+				if (ascending ? value > nextValue : value < nextValue) {
+					tbody.insertBefore(nextRow, row);
+					unsorted = true;
+				}
+			}
+		}
+	};
+</script>
+</head>
+<body>
+	<table id="content-table">
+		<thead>
+			<tr>
+				<th class="id">ID <a
+					href="javascript:sort(true, 'id', 'content-table');">asc</a> <a
+					href="javascript:sort(false, 'id', 'content-table');">des</a>
+				</th>
+				<th class="country">Country <a
+					href="javascript:sort(true, 'country', 'content-table');">asc</a> <a
+					href="javascript:sort(false, 'country', 'content-table');">des</a>
+				</th>
+				<th class="some-fact">Some fact <a
+					href="javascript:sort(true, 'some-fact', 'content-table');">asc</a>
+					<a href="javascript:sort(false, 'some-fact', 'content-table');">des</a>
+				<th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="id">001</td>
+				<td class="country">Germany</td>
+				<td class="some-fact">16.405</td>
+			</tr>
+			<tr>
+				<td class="id">002</td>
+				<td class="country">France</td>
+				<td class="some-fact">10.625</td>
+			</tr>
+			<tr>
+				<td class="id">003</td>
+				<td class="country">UK</td>
+				<td class="some-fact">15.04</td>
+			</tr>
+			<tr>
+				<td class="id">004</td>
+				<td class="country">China</td>
+				<td class="some-fact">13.536</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
